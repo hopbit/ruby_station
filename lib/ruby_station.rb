@@ -59,3 +59,44 @@ class ResponseParser
     end
   end
 end
+
+class UserMapper
+  def map_over_users(users)
+    users.map do |user|
+      if user[:age] < 18
+        description = "child"
+      else
+        description = "adult"
+      end
+
+      "#{user[:name]} - #{description}"
+    end
+  end
+end
+
+class ArticlePicker
+  def pick(articles)
+    articles.select do |article|
+      article[:featured] && article[:comments].size > 0
+    end.map do |article|
+      article[:title]
+    end
+  end
+end
+
+class CreditCalculator
+  def compute(credits, threshold)
+    credits.select do |user|
+      total_for_user = user[:events].reduce(0) do |current_total, event|
+        if event[:action] == :buy_credits
+          current_total + event[:value]
+        else
+          current_total - event[:value]
+        end
+      end
+      total_for_user > threshold
+    end.map do |user|
+      user[:name]
+    end.join(" ")
+  end
+end
