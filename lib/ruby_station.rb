@@ -35,8 +35,20 @@ class Article
 
   def slug()
     my_slug = @title.gsub(" ", "-").downcase
-    puts my_slug
-    my_slug
+  end
+
+  def preview(size_of_preview)
+    content.slice(0, size_of_preview).to_s + "..."
+  end
+
+end
+
+class ResponseParser
+
+  def summarize(api_response)
+    api_hits = api_response[:result][:hits]
+    api_hits_size = api_hits.size
+    api_hits_size < 1 ? "There are no hits" : "Number of hits: #{api_hits_size}; best: #{api_hits.first[:value]}"
   end
 
 end
