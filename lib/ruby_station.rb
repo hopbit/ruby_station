@@ -1,6 +1,6 @@
 class RubyStation
   def hello(full_name)
-    "YO!"
+    "Hello #{full_name.split(/ /).first}!"
   end
 
   def give_response(sentence)
