@@ -97,3 +97,23 @@ class ArticlePicker
     end
   end
 end
+
+class CreditCalculator
+  # 08_spec.rb
+  def compute(credits, amount)
+    credits.map do |name_and_events|
+      name = name_and_events[:name]
+      balance = name_and_events[:events].reduce(0) do |accumulator,event_item|
+        action = event_item[:action]
+        value = event_item[:value]
+        value *= -1 if action == :spend_credits
+        accumulator + value
+      end
+      [name, balance]
+    end.select do |name_and_balance|
+      name_and_balance[1] > amount
+    end.reduce("") do | accumulator, item_with_balance_greater_than_amount |
+      accumulator + item_with_balance_greater_than_amount[0] + " "
+    end.chomp(' ')
+  end
+end
